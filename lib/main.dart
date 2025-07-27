@@ -45,7 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() { _isLoading = true; _statusMessage = 'Searching for Tory\'s treasures...'; _foundTorrents = null; _posterUrl = null; });
     String? newPosterUrl; List<dynamic>? newTorrents; String status = '';
     try {
-      final authority = '10.0.2.2:3000';
+      final authority = 'tory-server.vercel.app';
       final queryParameters = { 'title': _titleController.text, 'category': _isAnimeCategory ? 'Anime' : 'Movies', 'maxSize': _maxSizeController.text };
       final url = Uri.http(authority, '/search', queryParameters);
       final response = await http.get(url).timeout(const Duration(seconds: 30));
