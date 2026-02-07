@@ -7,62 +7,16 @@
 ### *The Intelligent Torrent Discovery Engine*
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat&logo=flutter&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter_3.8-02569B?style=flat&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart_3.8-0175C2?style=flat&logo=dart&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node.js&logoColor=white)
+![Shorebird](https://img.shields.io/badge/Shorebird-OTA_Updates-blue?style=flat)
+[![Backend](https://img.shields.io/badge/Backend-tory--server-orange?style=flat)](https://github.com/nirmaleeswar30/tory-server)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 *One tap. Best torrent. Every time.*
 
-[🚀 Quick Start](#-quick-start) • [📱 Features](#-features) • [🏗️ Architecture](#️-architecture) • [🎨 Screenshots](#-screenshots)
-
-</div>
-
----
-
-## 🎨 Screenshots
-
-<div align="center">
-
-### 🌟 App Interface Showcase
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="screenshots/home_screen.png" alt="Home Screen" width="250">
-      <br>
-      <sub><b>Home Screen</b></sub>
-    </td>
-    <td align="center">
-      <img src="screenshots/search_results.png" alt="Search Results" width="250">
-      <br>
-      <sub><b>Search Results</b></sub>
-    </td>
-    <td align="center">
-      <img src="screenshots/loading_animation.gif" alt="Loading Animation" width="250">
-      <br>
-      <sub><b>Loading Animation</b></sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="screenshots/movie_details.png" alt="Movie Details" width="250">
-      <br>
-      <sub><b>Movie Details</b></sub>
-    </td>
-    <td align="center">
-      <img src="screenshots/anime_search.png" alt="Anime Search" width="250">
-      <br>
-      <sub><b>Anime Search</b></sub>
-    </td>
-    <td align="center">
-      <img src="screenshots/torrent_selection.png" alt="Torrent Selection" width="250">
-      <br>
-      <sub><b>Torrent Selection</b></sub>
-    </td>
-  </tr>
-</table>
-
-> 📱 **Interactive Demo:** Experience the fluid animations and smooth transitions that make Tory a joy to use.
+[🚀 Quick Start](#-quick-start) • [📱 Features](#-features) • [🏗️ Architecture](#️-architecture) • [⚙️ Configuration](#️-configuration)
 
 </div>
 
@@ -70,188 +24,222 @@
 
 ## 🌟 Overview
 
-Tory revolutionizes torrent discovery by combining intelligent scoring algorithms with a beautiful, animated interface. Built for movie enthusiasts and anime lovers, it automatically finds the highest-quality torrents from multiple sources and delivers them through a seamless one-tap experience.
-
-> **🎯 Smart Discovery:** Goes beyond simple seeder counts using multi-factor analysis inspired by Radarr's sophisticated scoring system.
+Tory is an intelligent torrent discovery app built with Flutter. It aggregates results from **17+ torrent indexers** via its own [tory-server](https://github.com/nirmaleeswar30/tory-server) backend, scores them using a multi-factor algorithm, and surfaces the best results through a polished dark UI. Discover movies via **TMDB**, anime via **AniList + Jikan**, and browse episodes with full season/episode pickers — all with one tap to magnet link.
 
 ## 📱 Features
 
-### 🔍 **Intelligent Search Engine**
-- **Multi-Source Aggregation** — Searches across multiple public indexers simultaneously
-- **Advanced Scoring Algorithm** — Evaluates quality, source type, audio, and health metrics
-- **Category Specialization** — Dedicated scrapers for movies and anime content
+### 🔍 Intelligent Search Engine
+- **17 Torrent Sources** — 1337x, YTS, NyaaSi, PirateBay, TorrentGalaxy, EZTV, RARBG, KickAss, and more
+- **Multi-Factor Scoring** — Seeders (40%), S/L ratio (25%), file size (15%), recency (10%), source reliability (10%)
+- **SubsPlease / Erai-raws Bonus** — +5 score for known quality anime release groups
+- **Dual Search** — Runs two query formats in parallel (scene S01E02 + SubsPlease style), merges & deduplicates results
 
-### 🎨 **Beautiful Interface**
-- **Fluid Animations** — Custom Flutter animations with staggered list effects
-- **Adaptive Design** — Collapsing search bars and smooth state transitions
-- **Rich Content Display** — High-quality posters from TMDb and Kitsu.io
+### 🎬 Media Discovery
+- **TMDB Integration** — Trending, popular, and top-rated movies & TV shows with poster art
+- **AniList Integration** — Trending, popular, and latest airing anime via GraphQL API
+- **Jikan / MAL** — Episode details with thumbnails, titles, air dates, scores, filler/recap tags
+- **Season & Episode Pickers** — Two-step UI: bottom sheet with episode range cards → full-screen episode browser
 
-### ⚡ **Instant Action**
-- **One-Tap Launch** — Direct magnet link integration with torrent clients
-- **Smart Filtering** — Configurable file size limits and quality preferences
-- **Fallback Support** — Clipboard copy when no torrent client is available
+### 🎌 Anime-Optimized Search
+- **Season Extraction** — Detects season numbers from titles ("2nd Season", "Part 3", Roman numerals)
+- **Short Title Detection** — Strips subtitles after colons for SubsPlease-style queries
+- **Smart Query Format** — S1: `Title - 03`, S2+: `Title S2 - 03` (matching real fansub naming)
+
+### 🎨 UI / UX
+- **Deep Navy Dark Theme** — Custom `AppTheme` with crimson accents throughout
+- **Shimmer Loading** — Skeleton placeholders while content loads
+- **Score Badges** — Color-coded quality indicators on every torrent card
+- **Source Chips** — Quick-switch between indexers with emoji icons
+- **Sort Filters** — Best Match, Most Seeders, Smallest, Newest, Largest, Latest
+- **Scroll-to-Top** — Auto-scrolls when switching sort modes
+
+### 🔄 OTA Updates (Shorebird)
+- **Code Push** — Hot-patch the app without a store release
+- **Patch Version Display** — About screen shows current patch number
+- **Bundletool Script** — Included `build_universal_apk.ps1` to convert AAB → APK
 
 ## 🏗️ Architecture
 
-```mermaid
-graph TB
-    A[Flutter Mobile App] -->|HTTP Requests| B[Node.js Backend]
-    B -->|Scrapes| C[Multiple Torrent Sites]
-    B -->|Fetches Metadata| D[TMDb API]
-    B -->|Fetches Metadata| E[Kitsu.io API]
-    B -->|Returns Scored Results| A
-    A -->|Launches| F[Torrent Client]
 ```
-
-### Backend (Node.js + Express)
-- **RESTful API** with `/search` endpoint
-- **Parallel Processing** for multiple torrent sources
-- **Custom Scoring Engine** with quality metrics
-- **Metadata Enrichment** from external APIs
-
-### Frontend (Flutter)
-- **Cross-Platform** mobile application
-- **State Management** with StatefulWidget pattern
-- **Animation Framework** leveraging Flutter's built-in capabilities
-- **URL Launcher** integration for seamless torrent client handoff
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-```bash
-# Required tools
-- Node.js (LTS version)
-- Flutter SDK 3.0+
-- TMDb API Key
-- VPN connection (recommended)
+┌─────────────────────────────────────────────────────────────────┐
+│                        Flutter App (Dart)                       │
+│                                                                 │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌───────────────┐  │
+│  │  Home     │  │  Search  │  │ Episodes │  │   Settings    │  │
+│  │  Screen   │  │  Screen  │  │  Screen  │  │   Screen      │  │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └───────────────┘  │
+│       │              │              │                            │
+│  ┌────┴──────────────┴──────────────┴────┐                     │
+│  │           Provider (State Mgmt)       │                     │
+│  │  SearchProvider · SettingsProvider     │                     │
+│  └────┬──────────────┬──────────────┬────┘                     │
+│       │              │              │                            │
+│  ┌────┴────┐   ┌─────┴────┐  ┌─────┴──────┐                   │
+│  │ API     │   │  TMDB    │  │  AniList   │                    │
+│  │ Service │   │  Service │  │  Service   │                    │
+│  └────┬────┘   └─────┬────┘  └─────┬──────┘                   │
+└───────┼──────────────┼──────────────┼──────────────────────────┘
+        │              │              │
+        ▼              ▼              ▼
+  ┌──────────┐  ┌───────────┐  ┌──────────────┐  ┌────────────┐
+  │tory-     │  │ TMDB API  │  │AniList GQL   │  │ Jikan API  │
+  │server    │  │   v3      │  │              │  │  (MAL)     │
+  │:8080     │  │           │  │              │  │            │
+  └──────────┘  └───────────┘  └──────────────┘  └────────────┘
 ```
-
-### 1️⃣ Backend Setup
-
-```bash
-# Navigate to server directory
-cd torrent_bot_server
-
-# Install dependencies
-npm install
-
-# Configure API key in server.js
-const TMDB_API_KEY = 'your_tmdb_api_key_here';
-
-# Start server (with VPN active)
-node server.js
-```
-
-Server runs on `http://localhost:3000`
-
-### 2️⃣ Flutter App Setup
-
-```bash
-# Navigate to app directory
-cd movie_finder_app
-
-# Get dependencies
-flutter pub get
-
-# Configure server endpoint in lib/main.dart
-final authority = 'your_server_address:3000';
-
-# Launch app
-flutter run
-```
-
-## 🎯 Usage
-
-<div align="center">
-
-### 🚀 Demo Video
-
-<img src="assets/demo/tory_demo.gif" alt="Tory App Demo" width="300">
-
-*Watch Tory in action - from search to launch in seconds*
-
-</div>
-
-1. **Launch** the Tory app on your device
-2. **Search** for any movie or anime title
-3. **Filter** results by maximum file size if needed
-4. **Tap** on your preferred torrent to launch instantly
-5. **Enjoy** automatic opening in your torrent client
-
-## ⚙️ Configuration
-
-### Server Endpoints
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/search` | POST | Main search functionality with scoring |
-
-### Environment Variables
-```env
-TMDB_API_KEY=your_tmdb_v3_api_key
-PORT=3000
-```
-
-### Device-Specific Settings
-
-**Android Emulator:** `10.0.2.2:3000`  
-**Desktop/Web:** `localhost:3000`  
-**Physical Device:** `192.168.x.x:3000` (your local IP)
-
-## 🛠️ Development
 
 ### Project Structure
 ```
 tory/
-├── movie_finder_app/          # Flutter mobile application
-│   ├── lib/
-│   │   ├── main.dart          # Main app entry point
-│   │   └── ...
-│   └── pubspec.yaml
-├── torrent_bot_server/        # Node.js backend server
-│   ├── server.js              # Express server
-│   ├── package.json
-│   └── ...
-└── README.md
+├── lib/
+│   ├── main.dart                    # Entry point
+│   ├── app.dart                     # MaterialApp setup
+│   ├── core/
+│   │   ├── constants.dart           # Sources, API keys, categories
+│   │   └── theme.dart               # AppTheme (deep navy + crimson)
+│   ├── models/
+│   │   ├── torrent.dart             # Torrent data model + scoring
+│   │   ├── tmdb_media.dart          # TMDB movie/TV model
+│   │   └── anilist_media.dart       # AniList model + season extraction
+│   ├── services/
+│   │   ├── api_service.dart         # Torrents-Api HTTP client
+│   │   ├── tmdb_service.dart        # TMDB API v3
+│   │   ├── anilist_service.dart     # AniList GraphQL
+│   │   └── storage_service.dart     # SharedPreferences wrapper
+│   ├── providers/
+│   │   ├── search_provider.dart     # Search state + dual-search + sorting
+│   │   └── settings_provider.dart   # API URL, TMDB key, default source
+│   ├── screens/
+│   │   ├── splash_screen.dart       # Animated splash
+│   │   ├── home_screen.dart         # TMDB + AniList discovery sections
+│   │   ├── search_screen.dart       # Search UI with source/sort chips
+│   │   ├── episode_screen.dart      # TMDB episode browser
+│   │   ├── anime_episode_screen.dart# Anime episode browser (Jikan)
+│   │   ├── favorites_screen.dart    # Saved items
+│   │   └── settings_screen.dart     # Config + About (version/patch)
+│   └── widgets/
+│       ├── torrent_card.dart        # Torrent result card
+│       ├── torrent_detail_sheet.dart # Bottom sheet details
+│       ├── media_card.dart          # TMDB media card
+│       ├── anime_card.dart          # AniList anime card
+│       ├── episode_picker_sheet.dart # TMDB season picker sheet
+│       ├── anime_episode_sheet.dart # Anime episode range sheet
+│       ├── score_badge.dart         # Color-coded score indicator
+│       ├── source_chip.dart         # Source selector chip
+│       └── shimmer_loader.dart      # Skeleton loading effect
+├── assets/
+│   └── logo.png
+├── shorebird.yaml                   # Shorebird app config
+├── build_universal_apk.ps1          # AAB → universal APK script
+└── pubspec.yaml
 ```
 
-### Key Dependencies
+## 🚀 Quick Start
 
-**Backend:**
-- `express` - Web framework
-- `axios` - HTTP client
-- `cheerio` - HTML parsing
-- `torrent-search-api` - Torrent indexing
+### Prerequisites
+- **Flutter SDK** 3.8+
+- **Node.js** (LTS) for the backend
+- **Shorebird CLI** (optional, for OTA updates)
+- **TMDB API Key** — [get one here](https://www.themoviedb.org/settings/api)
 
-**Frontend:**
-- `http` - Network requests
-- `url_launcher` - External app integration
-- `flutter_spinkit` - Loading animations
+### 1. Backend Setup
 
-## 🤝 Contributing
+```bash
+# Clone and start the tory-server backend
+git clone https://github.com/nirmaleeswar30/tory-server.git
+cd tory-server
+npm install
+npm start
+# Runs on http://localhost:8080
+```
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+### 2. Flutter App Setup
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+```bash
+cd Tory
+flutter pub get
+flutter run
+```
 
-## 📄 License
+### 3. Configure in App
+Open **Settings** in the app to set:
+- **API Base URL** — defaults to `https://tory-server.vercel.app` (or set your own)
+- **TMDB API Key** — your v3 API key
+- **Default Source** — preferred torrent indexer
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## ⚙️ Configuration
+
+### Torrent Sources (17)
+
+| Source | Emoji | Reliability | Best For |
+|--------|-------|-------------|----------|
+| YTS | 🎬 | 95% | Movies (small size) |
+| 1337x | 🔥 | 90% | Everything |
+| NyaaSi | 🎌 | 90% | Anime |
+| RARBG | ⚡ | 90% | Movies & TV |
+| TorrentGalaxy | 🌌 | 85% | General |
+| EZTV | 📺 | 85% | TV Shows |
+| PirateBay | 🏴‍☠️ | 80% | General |
+| KickAss | 💥 | 75% | General |
+| BitSearch | 🔎 | 75% | General |
+| ETTV | 📡 | 75% | TV |
+| Torlock | 🔒 | 70% | General |
+| Zooqle | 🔍 | 70% | General |
+| GloTorrents | 🌍 | 70% | General |
+| MagnetDL | 🧲 | 70% | General |
+| TorrentProject | 📋 | 70% | General |
+| LimeTorrent | 🍋 | 65% | General |
+| TorrentFunk | 🎵 | 65% | General |
+
+### Scoring Algorithm
+```
+Score = Seeders (40%) + S/L Ratio (25%) + Size (15%) + Recency (10%) + Source (10%)
+       + SubsPlease/Erai-raws bonus (+5)
+```
+
+### API Endpoints
+| Service | URL | Purpose |
+|---------|-----|---------|
+| tory-server | `https://tory-server.vercel.app/api/{source}/{query}` | Torrent search |
+| TMDB | `https://api.themoviedb.org/3/` | Movie & TV metadata |
+| AniList | `https://graphql.anilist.co` | Anime discovery |
+| Jikan | `https://api.jikan.moe/v4/` | Episode details (MAL) |
+
+## 🔄 Shorebird OTA Updates
+
+```bash
+# Create a release
+shorebird release android
+
+# Convert AAB to universal APK
+.\build_universal_apk.ps1
+
+# Push a patch (after code changes)
+shorebird patch android
+```
+
+Patch number is displayed in **Settings → About**.
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| UI | Flutter 3.8 / Dart 3.8 |
+| State | Provider |
+| Storage | SharedPreferences |
+| OTA | Shorebird Code Push |
+| Backend | Node.js ([tory-server](https://github.com/nirmaleeswar30/tory-server)) |
+| Movie Data | TMDB API v3 |
+| Anime Data | AniList GraphQL + Jikan v4 |
 
 ## ⚠️ Disclaimer
 
-**Educational Purpose Only:** This project is intended for educational and research purposes. Users are responsible for complying with all applicable laws and regulations in their jurisdiction. The developers do not endorse or encourage the downloading of copyrighted material without proper authorization.
+**Educational Purpose Only.** This project is intended for educational and research purposes. Users are responsible for complying with all applicable laws and regulations in their jurisdiction. The developers do not endorse or encourage the downloading of copyrighted material without proper authorization.
 
 ---
 
 <div align="center">
 
-**Built with ❤️ by the Tory Team**
-
-[⭐ Star this repo](https://github.com/yourusername/tory) if you found it helpful!
+**Built with ❤️ using Flutter & Dart**
 
 </div>
